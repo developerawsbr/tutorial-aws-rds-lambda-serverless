@@ -1,0 +1,27 @@
+service: customersapi
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource:
+        - "*"
+functions:
+  GetCustomers:
+    handler: handler.getCustomers
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - vpc security group in rds database details
+      subnetIds:
+        - subnet in rds database details
